@@ -1,0 +1,14 @@
+.text
+.globl main
+main:
+addi $s0, $s0, 7
+addi $t0, $s1, 5 # y+5
+LOOP:
+ble $s0, $t0, EXIT # branch if x < y + 5
+subi $s0, $s0, 1 #x--
+addi $s1, $s1, 1 #y++
+addi $t0, $s1, 5
+j LOOP
+EXIT:
+li $v0, 10
+syscall

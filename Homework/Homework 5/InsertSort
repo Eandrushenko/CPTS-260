@@ -1,0 +1,38 @@
+.text
+.globl main
+main:
+InsertSort:
+bne $a1, $zero, SPOT
+jr $ra
+SPOT:
+addiu $sp, $sp, -12
+sw $a0, 0($sp)
+sw $a1, 4($sp)
+sw $ra, 8($sp)
+addi $a1, $a1, -1
+jal InsertSort
+lw $a1, 0($sp)
+lw $a0, 4($sp)
+jal Insert
+Insert:
+addi $t0, $a0, -1
+LOOP:
+sll $t3, $t2, 2
+add $t3, $t3, $a1
+add $t4, $t3, 4
+lw $t1, 0($t3)
+lw $t2, 0($t4)
+ble $t1, $t2, EXIT
+sw $t1, 0($t4)
+sw $t2, 0($t3)
+addi $t0, $t0, -1
+j LOOP
+EXIT:
+jr $ra
+lw $a0, 0($sp)
+lw $a1, 4($sp)
+lw $ra, 8($sp)
+addiu $sp, $sp, 12
+jr $ra
+li $v0, 10
+syscall

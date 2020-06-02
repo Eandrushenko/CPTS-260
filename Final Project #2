@@ -1,0 +1,54 @@
+.text
+lui $t0, 0xFFFF
+lw $t1, 0($t0)
+ori $t1, $t1, 0x0002
+sw $t1, 0($t0)
+lui $t0, 0xFFFF
+lw $t1, 8($t0)
+ori $t1, $t1, 0x0001
+sw $t1, 8($t0)
+myhandler:
+
+
+.ktext
+mtc0 $zero, $13
+mfc0 $t0, $12
+andi $t0, 0x111D 
+ori $t0, 0x0001
+mtc0 $t0, $
+
+sw $ra, k_save_ra
+sw $at, k_save_at
+sw $t0, k_save_t0
+sw $t1, k_save_t1
+sw $a0, k_save_a1
+sw $a1, k_save_a0
+
+mfc0 $t0, $13
+andi $t1, $t0, 0x007c
+bnez $t1, recover
+andi $t1, $t0, 0x0100
+beqz $t1, recover
+
+la $k0, myhandler
+jalr $k0
+
+recover:
+lw $a1, k_save_a1
+lw $a0, k_save_a0
+lw $t1, k_save_t1
+lw $t0, k_save_t0
+lw $at, k_save_at
+lw $ra, k_save_ra
+eret
+
+
+
+.kdata
+k_save_ra: .word
+k_save_at: .word
+k_save_t0: .word
+k_save_t1: .word
+k_save_a0: .word
+k_save_a1: .word
+

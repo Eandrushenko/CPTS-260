@@ -1,0 +1,12 @@
+.text
+.globl main
+main:
+addi $t0, $s1, 5 #holds y+5
+ble $s0, $t0, SPOT1 
+add $s0, $s0, $s1 #x=x+y
+j SPOT2
+SPOT1:
+sub $s1, $s0, $s1 #y=x-y
+SPOT2:
+li $v0, 10
+syscall 
